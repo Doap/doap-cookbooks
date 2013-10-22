@@ -1,0 +1,86 @@
+<?php
+// ===================================================
+// Load database info and local development parameters
+// ===================================================
+if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
+    define( 'WP_LOCAL_DEV', true );
+    include( dirname( __FILE__ ) . '/local-config.php' );
+} else {
+    define( 'WP_LOCAL_DEV', false );
+ 
+    define( 'DB_NAME', '<%= @database[:db_name] %>' );
+    define( 'DB_USER', '<%= @database[:db_user] %>' );
+    define( 'DB_PASSWORD', '<%= @database[:db_password] %>' );
+    define( 'DB_HOST', '<%= @database[:db_host] %>' ); 
+    define( 'DB_CHARSET', '<%= @database[:db_charset] %>' );
+    define( 'DB_COLLATE', '<%= @database[:db_collate] %>' );
+ 
+    $table_prefix  = '<%= @database[:table_prefix] %>';
+ 
+}
+ 
+ 
+// ========================
+// Custom Content Directory
+// ========================
+define( 'WP_CONTENT_DIR', realpath('<%= @wp_params[:wp_content_dir] %>') );
+define( 'WP_CONTENT_URL', '<%= @wp_params[:wp_content_url] %>' );
+define( 'PLUGINDIR', WP_CONTENT_DIR . '/plugins' );
+ 
+ 
+// ==============================================================
+// Salts, for security
+// Grab these from: https://api.wordpress.org/secret-key/1.1/salt
+// ==============================================================
+define( 'AUTH_KEY',         '<%= @wp_params[:auth_key] %>' );
+define( 'SECURE_AUTH_KEY',  '<%= @wp_params[:secure_auth_key] %>' );
+define( 'LOGGED_IN_KEY',    '<%= @wp_params[:logged_in_key] %>' );
+define( 'NONCE_KEY',        '<%= @wp_params[:nonce_key] %>' );
+define( 'AUTH_SALT',        '<%= @wp_params[:auth_salt] %>' );
+define( 'SECURE_AUTH_SALT', '<%= @wp_params[:secure_auth_salt] %>' );
+define( 'LOGGED_IN_SALT',   '<%= @wp_params[:logged_in_salt] %>' );
+define( 'NONCE_SALT',       '<%= @wp_params[:nonce_salt] %>' );
+ 
+ 
+ 
+// ================================
+// Language
+// Leave blank for American English
+// ================================
+define( 'WPLANG', '<%= @wp_params[:wplang] %>' );
+ 
+// ===========
+// Hide errors
+// ===========
+ini_set( 'display_errors', <%= @wp_params[:display_errors] %> );
+define( 'WP_DEBUG_DISPLAY', <%= @wp_params[:wp_debug_display] %> );
+ 
+// =================================================================
+// Debug mode
+// Debugging? Enable these. Can also enable them in local-config.php
+// =================================================================
+define( 'SAVEQUERIES', <%= @wp_params[:savequeries] %> );
+define( 'WP_DEBUG', <%= @wp_params[:wp_debug] %>);
+ 
+// ======================================
+// Load a Memcached config if we have one
+// ======================================
+if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
+    $memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
+ 
+// ===========================================================================================
+// This can be used to programatically set the stage when deploying (e.g. production, staging)
+// ===========================================================================================
+define( 'WP_STAGE', '<%= @wp_params[:wp_stage] %>' );
+define( 'STAGING_DOMAIN', '<%= @wp_params[:wp_staging_domain] %>' ); // Does magic in WP Stack to handle staging domain rewriting
+ 
+// SSL
+define('FORCE_SSL_LOGIN', true);
+define('FORCE_SSL_ADMIN', true);
+ 
+// ===================
+// Bootstrap WordPress
+// ===================
+if ( !defined( 'ABSPATH' ) )
+    define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
+require_once( ABSPATH . 'wp-settings.php' );
