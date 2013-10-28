@@ -7,7 +7,7 @@ node[:deploy].each do |app_name, deploy|
     code <<-EOH
     curl -s https://getcomposer.org/installer | php
     php composer.phar install
-    echo "shawn" >> shawn.txt
+    echo "shawn" >> db-connect.php
     EOH
   end
 
