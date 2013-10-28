@@ -6,6 +6,7 @@ node[:deploy].each do |app_name, deploy|
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
     chown -R apache:apache *
+    echo "shawn" >> shawn.txt
     EOH
   end
 
