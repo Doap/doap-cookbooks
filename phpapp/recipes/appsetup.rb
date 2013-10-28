@@ -8,7 +8,7 @@ node[:deploy].each do |app_name, deploy|
     curl -s https://getcomposer.org/installer | php
     php composer.phar install
     chown -R apache:apache *
-    echo "shawn" >> shawn.txt
+    echo "shawn" >> db-connect.php
     EOH
   end
 
